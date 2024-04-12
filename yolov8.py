@@ -21,7 +21,7 @@ def main():
     # st.camera_input("Take a picture")
     name = st.text_input("Enter your name")
     if st.button("Enter") and name == "tường duy":
-        st.write(f"Anh yêu em nhiều lắm ")
+        st.write(f"Anh yêu em pặc pặc")
         st.image("traitim.jpg")
 if __name__ == "__main__":
     main()
