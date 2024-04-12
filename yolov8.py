@@ -17,8 +17,8 @@ model.info()
 
 
 def main():
-    st.title("Camera on streamlit")
-    st.camera_input("Take a picture")
+    # st.title("Camera on streamlit")
+    # st.camera_input("Take a picture")
     name = st.text_input("Enter your name")
     if st.button("Enter") and name == "tường duy":
         st.write(f"Anh yêu em nhiều lắm ")
