@@ -1,12 +1,12 @@
-from ultralytics import YOLO
+# from ultralytics import YOLO
 import streamlit as st
 from PIL import Image
-import numpy as np
+# import numpy as np
 # Load a COCO-pretrained YOLOv8n model
-model = YOLO('yolov8n.pt')
+# model = YOLO('yolov8n.pt')
 
 # Display model information (optional)
-model.info()
+# model.info()
 
 
 # Train the model on the COCO8 example dataset for 100 epochs
