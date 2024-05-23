@@ -14,7 +14,7 @@ st.title("Demo Sentiment Analysis for Delta Brains JSC.")
 
 st.write("Enter some text to send to the model:")
 
-user_input = st.text_area("Input Text", "I like you. I love you")
+user_input = st.text_area("Input Text", "Delta Brains is the best!")
 
 if st.button("Submit"):
     output = query({"inputs": user_input})
