@@ -10,7 +10,7 @@ def query(payload):
     return response.json()
 
 # Streamlit app
-st.title("Hugging Face Model Inference")
+st.title("Demo Sentiment Analysis for Delta Brains JSC.")
 
 st.write("Enter some text to send to the model:")
 
