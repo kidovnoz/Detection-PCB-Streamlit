@@ -27,7 +27,7 @@ if st.button("Submit"):
         label = prediction.get('label', 'No label')
         score = prediction.get('score', 'No score')
         
-        st.write(f"Result: {label}")
+        st.write(f"{label}")
         st.write(f"Accuracy: {score:.2f}")
     else:
         st.error("Unexpected response format")
