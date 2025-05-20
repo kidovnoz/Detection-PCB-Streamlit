@@ -32,7 +32,7 @@ def load_model_config(config_path):
     return model_paths, model_names
 
 yaml_path = "config.yaml"
-st.logo("D:/meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
+st.logo("meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
 
 # Sidebar settings
 st.sidebar.header("⚙️ Cấu hình")
