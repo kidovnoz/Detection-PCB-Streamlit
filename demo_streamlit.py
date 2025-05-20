@@ -82,7 +82,7 @@ def process_image(image_file, models, model_names, confidence):
                     source=image,
                     conf=confidence,
                     imgsz=640,
-                    device=0,
+                    device='cpu',
                     augment=True
                 )
 
