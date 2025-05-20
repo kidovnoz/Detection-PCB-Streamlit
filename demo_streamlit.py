@@ -31,7 +31,7 @@ def load_model_config(config_path):
     model_names = [model["class_name"] for model in config["models"]]
     return model_paths, model_names
 
-yaml_path = "D:/AOI-MKAC/config.yaml"
+yaml_path = "config.yaml"
 st.logo("D:/meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
 
 # Sidebar settings
