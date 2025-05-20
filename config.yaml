@@ -1,12 +1,12 @@
 models:
   - name: Mô hình 1
     class_name: Khuyet Mach
-    weight_path: D:\AOI-MKAC\runs\detect\train42\weights\best.pt
+    weight_path: 42.pt
 
   - name: Mô hình 2
     class_name: Ngan Mach
-    weight_path: D:\AOI-MKAC\runs\detect\train41\weights\best.pt
+    weight_path: 41.pt
 
   - name: Mô hình 3
     class_name: Thua Dong
-    weight_path: D:\AOI-MKAC\runs\detect\train59\weights\best.pt
+    weight_path: 59.pt
