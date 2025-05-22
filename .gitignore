@@ -116,7 +116,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-# results from notebooks
-notebooks/**
-!notebooks/*.ipynb
