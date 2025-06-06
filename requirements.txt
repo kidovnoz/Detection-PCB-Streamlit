@@ -7,3 +7,4 @@ notebook==7.4.2
 # Dev tools
 mypy==1.15.0
 pytest==8.3.5
+opencv-python==4.5.1
