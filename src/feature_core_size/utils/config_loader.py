@@ -1,7 +1,7 @@
 from pathlib import Path
 import yaml
 
-def load_config(path="config.yaml", override_args=None):
+def load_config(path="aoi_inspection\src\feature_core_size\config.yaml", override_args=None):
     config_path = Path(path).resolve()
     config_dir = config_path.parent
 
