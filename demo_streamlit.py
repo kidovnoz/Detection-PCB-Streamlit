@@ -37,7 +37,7 @@ def load_model_config(config_path):
 
 
 yaml_path = r"D:\AOI-MKAC\MixPL\src\aoi_inspection\configs\config_streamlit.yaml"
-st.logo("D:/meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
+st.logo("meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
 
 # Sidebar settings
 st.sidebar.header("⚙️ Cấu hình")
