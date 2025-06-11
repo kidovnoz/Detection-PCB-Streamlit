@@ -91,7 +91,7 @@ def process_image(image_file, models, model_names, confidence):
             try:
                 model.eval()
                 results = model.predict(
-                    source=image, conf=confidence, imgsz=640, device=0, augment=True
+                    source=image, conf=confidence, imgsz=640, device="cpu", augment=True
                 )
 
                 for r in results:
