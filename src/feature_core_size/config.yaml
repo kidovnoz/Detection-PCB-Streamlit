@@ -1,0 +1,45 @@
+# Đường dẫn ảnh đầu vào
+input_image: test/test_pcb.jpg
+output_image: test/output.jpg
+tile_output_image: test/tiled_centered.jpg
+roi_prefix: test/roi_
+defects_file: test/defects_locations.txt
+
+# Đường dẫn ảnh chuẩn và ảnh thực tế
+reference_image: D:\AOI-MKAC\MixPL\src\aoi_inspection\src\feature_core_size\test\9.bmp
+test_image: D:\AOI-MKAC\MixPL\src\aoi_inspection\src\feature_core_size\test\roi_9.jpg
+
+# File căn chỉnh vị trí tile
+align_files:
+  align_x: test/firstLoc.txt
+  align_y: test/secondLoc.txt
+
+
+# Padding tổng quát khi hiển thị full ảnh
+padding_outer:
+  top: 0
+  bottom: 430
+  left: 0
+  right: 0
+
+# Cấu hình layout chia tile (dạng lưới)
+tile_layout:
+  rows: 3
+  cols: 2
+
+# Padding cho từng tile (theo thứ tự)
+padding_list:
+  - [0, 220, 0, 0]
+  - [0, 0, 220, 220]
+  - [0, 220, 0, 0]
+  - [0, 0, 220, 220]
+  - [50, 20, 0, 0]
+  - [50, 20, 220, 220]
+
+# Ngưỡng màu đỏ trong không gian HSV để phát hiện lỗi (nếu dùng detect theo màu)
+red_color_ranges:
+  - [[0, 70, 50], [10, 255, 255]]
+  - [[170, 70, 50], [180, 255, 255]]
+
+# Kích thước hộp lỗi (hiển thị bounding box)
+coordinate_box_size: 50

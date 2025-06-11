@@ -1,0 +1,31 @@
+models:
+  - name: Mô hình 1
+    class_name: Khuyet Mach
+    weight_path: streamlittest\models\Khuyet Mach.pt
+
+  - name: Mô hình 2
+    class_name: Ngan Mach
+    weight_path: streamlittest\models\NganMach.pt
+
+  - name: Mô hình 3
+    class_name: Thua Dong
+    weight_path: streamlittest\models\ThuaDong.pt
+
+  - name: Mô hình 4
+    class_name: Thieu Dong
+    weight_path: streamlittest\models\best_VRS_Thieudong_Annotation.pt
+
+  - name: Mô hình 5
+    class_name: Vet Lom
+    weight_path: streamlittest\models\best_VRS_Vetlom_Annotation.pt
+
+  - name: Mô hình 6
+    class_name: Xuoc
+    weight_path: streamlittest\models\best_VRS_Xuoc_Annotation.pt
+
+  - name: Mô hình 7
+    class_name: Bam dinh khong tot
+    weight_path: streamlittest\models\best_finetune_VRS_Bamdinhkhongtot_Annotation.pt
+    
+model_segment:
+  - weight_path: streamlittest\notebooks\sam2.1_s.pt

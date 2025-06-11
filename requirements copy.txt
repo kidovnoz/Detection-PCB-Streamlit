@@ -1,0 +1,16 @@
+numpy==2.2.6
+pandas==2.2.3
+scipy==1.15.3
+scikit-learn==1.6.1
+matplotlib==3.10.3
+notebook==7.4.2
+# Dev tools
+mypy==1.15.0
+pytest==8.3.5
+opencv-python==4.11.0.86
+streamlit>=1.32.0
+ultralytics>=8.1.0
+torch>=2.0.0
+torchvision>=0.15.0
+Pillow>=10.0.0
+PyYAML>=6.0
