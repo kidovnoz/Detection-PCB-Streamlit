@@ -1,0 +1,16 @@
+models:
+  - name: Mô hình 1
+    class_name: Khuyet Mach
+    weight_path: models\Khuyet Mach.pt
+
+  - name: Mô hình 2
+    class_name: Ngan Mach
+    weight_path: models\NganMach.pt
+
+  - name: Mô hình 3
+    class_name: Thua Dong
+    weight_path: models\ThuaDong.pt
+
+    
+model_segment:
+  - weight_path: notebooks\sam2.1_s.pt
