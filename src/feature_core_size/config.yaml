@@ -6,8 +6,8 @@ roi_prefix: test/roi_
 defects_file: test/defects_locations.txt
 
 # Đường dẫn ảnh chuẩn và ảnh thực tế
-reference_image: test/9.bmp
-test_image: test/roi_9.jpg
+reference_image: D:\AOI-MKAC\MixPL\src\aoi_inspection\src\feature_core_size\test\9.bmp
+test_image: D:\AOI-MKAC\MixPL\src\aoi_inspection\src\feature_core_size\test\roi_9.jpg
 
 # File căn chỉnh vị trí tile
 align_files:
@@ -18,9 +18,9 @@ align_files:
 # Padding tổng quát khi hiển thị full ảnh
 padding_outer:
   top: 0
-  bottom: 30
-  left: 90
-  right: 50
+  bottom: 430
+  left: 0
+  right: 0
 
 # Cấu hình layout chia tile (dạng lưới)
 tile_layout:
@@ -29,12 +29,12 @@ tile_layout:
 
 # Padding cho từng tile (theo thứ tự)
 padding_list:
-  - [0, 200, 0, 0]
-  - [0, 200, 200, 0]
-  - [0, 200, 0, 0]
-  - [0, 200, 200, 0]
-  - [0, 20, 0, 0]
-  - [0, 20, 200, 0]
+  - [0, 220, 0, 0]
+  - [0, 0, 220, 220]
+  - [0, 220, 0, 0]
+  - [0, 0, 220, 220]
+  - [50, 20, 0, 0]
+  - [50, 20, 220, 220]
 
 # Ngưỡng màu đỏ trong không gian HSV để phát hiện lỗi (nếu dùng detect theo màu)
 red_color_ranges:

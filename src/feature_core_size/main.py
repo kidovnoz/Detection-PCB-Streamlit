@@ -96,7 +96,7 @@ def main():
 
     # Detect line-based defects (e.g., cracks) between reference and test images using the Sobel filter
     '''
-    Gọi hàm phát hiện các đường bất thường (vết nứt, hỏng hóc) bằng cách so sánh ảnh chuẩn và ảnh cần kiểm tra
+    Gọi hàm tính toán kích thước đường bất thường (vết nứt, hỏng hóc) bằng cách so sánh ảnh chuẩn và ảnh cần kiểm tra
     - Ảnh đầu ra highlight vùng lỗi - highlight_filtered
     - Lọc các contour tương ứng với lỗi - filtered_contours
     - Sinh nhãn (label map) và danh sách chỉ số vùng lỗi - label, index_label

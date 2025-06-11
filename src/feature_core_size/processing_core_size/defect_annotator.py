@@ -25,7 +25,8 @@ def annotate_and_save_rois(image, coords, roi_prefix, coordinate_box_size, outpu
             y1 = max(y - coordinate_box_size, 0)
             x2 = min(x + coordinate_box_size, width)
             y2 = min(y + coordinate_box_size, height)
-
+            # Draw a rectangle around the coordinate
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 1)
             # Crop the ROI
             roi_small = image[y1:y2, x1:x2]
 
@@ -34,6 +35,6 @@ def annotate_and_save_rois(image, coords, roi_prefix, coordinate_box_size, outpu
                 cv2.imwrite(f"{roi_prefix}{i}.jpg", roi_small)
 
     # Optionally resize and save the annotated full image
-    image = cv2.resize(image, (4000, 4000), interpolation=cv2.INTER_LINEAR)
+    # image = cv2.resize(image, (4000, 4000), interpolation=cv2.INTER_LINEAR)
     cv2.imwrite(output_image, image)
     print("✅ Image saved successfully")

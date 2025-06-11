@@ -8,8 +8,9 @@ def read_align_file(path):
                 try:
                     width = int(parts[1])
                     height = int(parts[2])
-                    max_width = max(max_width, width)
-                    max_height = max(max_height, height)
+                    max_width = max(max_width, width) + 100
+                    max_height = max(max_height, height) + 200
+                    print(max_width, max_height)
                 except ValueError:
                     continue
     return max_width, max_height
@@ -18,9 +19,9 @@ def get_final_dimensions_from_align_files(config):
     align_x_path = config["align_files"]["align_x"]
     align_y_path = config["align_files"]["align_y"]
     width_x, height_x = read_align_file(align_x_path)
-    width_y, height_y = read_align_file(align_y_path)
-    final_width = width_x + width_y
-    final_height = height_x + height_y
+    width_y, height_y = read_align_file(align_y_path) 
+    final_width = width_x + width_y 
+    final_height = height_x + height_y 
     return final_width, final_height
 
 def read_defect_coordinates(defects_file):

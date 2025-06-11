@@ -1,30 +1,47 @@
 import cv2
 import numpy as np
 
-# Apply FFT-based denoising by removing horizontal and vertical frequency components
-def fft_denoise(image, mask_size_x=3, max_size_y=6):
-    f = np.fft.fft2(image)                   # Apply 2D FFT
-    fshift = np.fft.fftshift(f)              # Shift the zero frequency component to the center
+def fft_highpass_filter(image, radius=30):
+    f = np.fft.fft2(image)
+    fshift = np.fft.fftshift(f)
     rows, cols = image.shape
-    crow, ccol = rows // 2, cols // 2        # Center of the frequency image
+    crow, ccol = rows // 2 , cols // 2
 
-    # Create a frequency mask to suppress horizontal and vertical lines
+    # Create a circular high-pass mask
     mask = np.ones((rows, cols), np.uint8)
-    mask[crow - mask_size_x:crow + mask_size_x, :] = 0  # Remove horizontal frequencies
-    mask[:, ccol - max_size_y:ccol + max_size_y] = 0    # Remove vertical frequencies
+    y, x = np.ogrid[:rows, :cols]
+    mask_area = (x - ccol)**2 + (y - crow)**2 <= radius**2
+    mask[mask_area] = 0
 
-    fshift_filtered = fshift * mask         # Apply the mask
-    f_ishift = np.fft.ifftshift(fshift_filtered)  # Shift back
-    img_back = np.fft.ifft2(f_ishift)       # Inverse FFT to return to spatial domain
-    return np.abs(img_back).astype(np.uint8)  # Convert to uint8 image
+    fshift_filtered = fshift * mask
+    f_ishift = np.fft.ifftshift(fshift_filtered)
+    img_back = np.fft.ifft2(f_ishift)
+    return np.abs(img_back).astype(np.uint8)
+
+def fft_lowpass_filter(image, radius=30):
+    f = np.fft.fft2(image)
+    fshift = np.fft.fftshift(f)
+    rows, cols = image.shape
+    crow, ccol = rows // 2 , cols // 2
+
+    # Create a circular low-pass mask
+    mask = np.zeros((rows, cols), np.uint8)
+    y, x = np.ogrid[:rows, :cols]
+    mask_area = (x - ccol)**2 + (y - crow)**2 <= radius**2
+    mask[mask_area] = 1
+
+    fshift_filtered = fshift * mask
+    f_ishift = np.fft.ifftshift(fshift_filtered)
+    img_back = np.fft.ifft2(f_ishift)
+    return np.abs(img_back).astype(np.uint8)
+
 
 # Main function to detect abnormal lines between Gerber and actual PCB images
 def detect_abnormal_lines(
     img_path_gerber, img_path_actual, 
     sobel_thresh=80, show=True, 
     roi=(100, 100, 100, 100), 
-    use_fft=False, fft_mask_size_x=2, fft_mask_size_y=3
-):
+    use_fft=False, fft_mask_size_x=40, fft_mask_size_y=70):
     # Load images in grayscale
     img1 = cv2.imread(img_path_gerber, cv2.IMREAD_GRAYSCALE)
     img2 = cv2.imread(img_path_actual, cv2.IMREAD_GRAYSCALE)
@@ -37,8 +54,11 @@ def detect_abnormal_lines(
 
     # Apply optional FFT-based denoising
     if use_fft:
-        img1 = fft_denoise(img1, fft_mask_size_x, fft_mask_size_y)
-        img2 = fft_denoise(img2, fft_mask_size_x, fft_mask_size_y)
+
+        img1 = fft_highpass_filter(img1, fft_mask_size_y)
+        img2 = fft_highpass_filter(img2, fft_mask_size_y)
+        img1 = fft_lowpass_filter(img1, fft_mask_size_x)
+        img2 = fft_lowpass_filter(img2, fft_mask_size_x)
 
     # Apply Sobel filter (X direction) to both images
     sobel1 = cv2.Sobel(img1, cv2.CV_64F, 1, 0, ksize=5)
@@ -60,7 +80,7 @@ def detect_abnormal_lines(
     clean_diff = cv2.morphologyEx(clean_diff, cv2.MORPH_CLOSE, kernel)
 
     # Morphological closing with wider kernel to connect broken line segments
-    kernel_connect = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 3))
+    kernel_connect = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     connected = cv2.morphologyEx(clean_diff, cv2.MORPH_CLOSE, kernel_connect)
 
     # Find external contours of the detected differences
