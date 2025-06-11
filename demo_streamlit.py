@@ -36,7 +36,7 @@ def load_model_config(config_path):
     return model_paths, model_names, model_segment
 
 
-yaml_path = r"configs\config_streamlit.yaml"
+yaml_path = "configs\config_streamlit.yaml"
 st.logo("meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
 
 # Sidebar settings
