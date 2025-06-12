@@ -115,7 +115,7 @@ def process_image(image_file, models, model_names, confidence):
                                 # Lấy mask đầu tiên
                                 mask = segment_result[0].masks.data[0].cpu().numpy()
                                 mask = mask.astype(np.uint8)
-                                pixel_count = np.sum(mask == 1)
+                                pixel_count = np.sum(mask > 0)
                                 print(
                                     f"Bounding box [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}] -> {pixel_count} pixels"
                                 )
