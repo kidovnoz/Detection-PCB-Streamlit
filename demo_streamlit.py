@@ -115,7 +115,7 @@ def process_image(image_file, models, model_names, confidence):
                                     (image_array.shape[1], image_array.shape[0]),
                                     interpolation=cv2.INTER_NEAREST,
                                 )
-
+                                
                                 pixel_count = len(mask)  # Đếm số pixel
                                 print(
                                     f"Bounding box [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}] -> {pixel_count} pixels"
@@ -147,7 +147,6 @@ def process_image(image_file, models, model_names, confidence):
         # Tạo tensor để chạy NMS
         boxes_tensor = torch.tensor([b["box"] for b in all_boxes], dtype=torch.float32)
         confs_tensor = torch.tensor([b["conf"] for b in all_boxes], dtype=torch.float32)
-
         # Chạy Non-Maximum Suppression
         keep_idxs = torchvision.ops.nms(boxes_tensor, confs_tensor, iou_threshold=0.1)
 
@@ -183,14 +182,6 @@ def process_image(image_file, models, model_names, confidence):
             center_x = int((x_min + x_max) / 2)
             center_y = int((y_min + y_max) / 2)
 
-            cv2.rectangle(draw_img, (x_min, y_min), (x_max, y_max), (0, 0, 255), 2)
-
-            # Vẽ đường ngang (trục x) qua tâm
-            cv2.line(draw_img, (x_min, center_y), (x_max, center_y), (0, 255, 255), 1)
-
-            # Vẽ đường dọc (trục y) qua tâm
-            cv2.line(draw_img, (center_x, y_min), (center_x, y_max), (255, 0, 255), 1)
-
             # Overlay mask
             mask = b.get("mask", None)
             if mask is not None:
@@ -205,6 +196,47 @@ def process_image(image_file, models, model_names, confidence):
 
                 # Tô nhẹ mask lên ảnh
                 draw_img = cv2.addWeighted(draw_img, 1.0, colored_mask, 0.4, 0)
+
+                contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                contour = max(contours, key=cv2.contourArea)
+                # Tính rotated bounding box
+                rot_rect = cv2.minAreaRect(contour)  # ((cx, cy), (w, h), angle)
+                (center_x, center_y), (w, h), angle = rot_rect
+                center = (int(center_x), int(center_y))
+
+                # Chuyển angle sang radian
+                theta = np.deg2rad(angle)
+
+                # Vector chiều rộng (hướng chính của bbox xoay)
+                dx_w = np.cos(theta) * w / 2
+                dy_w = np.sin(theta) * w / 2
+
+                # Vector chiều dài (vuông góc với vector rộng)
+                dx_h = -np.sin(theta) * h / 2
+                dy_h = np.cos(theta) * h / 2
+
+                # Các điểm đầu/cuối của vector width (xanh dương)
+                p1 = (int(center_x - dx_w), int(center_y - dy_w))
+                p2 = (int(center_x + dx_w), int(center_y + dy_w))
+
+                # Các điểm đầu/cuối của vector height (vàng)
+                p3 = (int(center_x - dx_h), int(center_y - dy_h))
+                p4 = (int(center_x + dx_h), int(center_y + dy_h))
+
+                # Vẽ bbox xoay (màu xanh lá)
+                box = np.intp(cv2.boxPoints(rot_rect))
+                print(box[0])
+                cv2.drawContours(draw_img, [box], 0, (0, 255, 0), 2)
+
+                # Vẽ tâm bbox (màu đỏ)
+                cv2.circle(draw_img, center, 5, (0, 0, 255), -1)
+
+                # Vẽ vector chiều rộng (màu xanh dương)
+                cv2.line(draw_img, p1, p2, (255, 0, 0), 2)
+
+                # Vẽ vector chiều dài (màu vàng)
+                cv2.line(draw_img, p3, p4, (0, 255, 255), 2)
+                
 
         final_image = Image.fromarray(draw_img)
 
