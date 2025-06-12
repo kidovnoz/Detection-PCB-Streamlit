@@ -93,7 +93,6 @@ def process_image(image_file, models, model_names, confidence):
                 results = model.predict(
                     source=image,
                     conf=confidence,
-                    device=0,
                     augment=True,
                 )
 
