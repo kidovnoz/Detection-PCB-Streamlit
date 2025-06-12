@@ -91,7 +91,10 @@ def process_image(image_file, models, model_names, confidence):
             try:
                 model.eval()
                 results = model.predict(
-                    source=image, conf=confidence, imgsz=640, device=0, augment=True
+                    source=image,
+                    conf=confidence,
+                    device=0,
+                    augment=True,
                 )
 
                 for r in results:
@@ -102,21 +105,17 @@ def process_image(image_file, models, model_names, confidence):
                             cls = int(box.cls.item())
                             if conf_score > 0.7:
                                 # Dùng SAM để segment bbox
-                                sam_model = models_segment[0]
-                                segment_result = sam_model(
-                                    source=image_array, bboxes=[[x1, y1, x2, y2]]
+                                sam2_model = models_segment[0]
+                                segment_result = sam2_model(
+                                    source=image_array,
+                                    bboxes=[[x1, y1, x2, y2]],
+                                    imgsz=640,
                                 )
 
                                 # Lấy mask đầu tiên
                                 mask = segment_result[0].masks.data[0].cpu().numpy()
                                 mask = mask.astype(np.uint8)
-                                mask = cv2.resize(
-                                    mask,
-                                    (image_array.shape[1], image_array.shape[0]),
-                                    interpolation=cv2.INTER_NEAREST,
-                                )
-                                
-                                pixel_count = len(mask)  # Đếm số pixel
+                                pixel_count = np.sum(mask == 1)
                                 print(
                                     f"Bounding box [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}] -> {pixel_count} pixels"
                                 )
@@ -192,7 +191,7 @@ def process_image(image_file, models, model_names, confidence):
 
                 # Tạo màu overlay (ví dụ màu đỏ)
                 colored_mask = np.zeros_like(draw_img)
-                colored_mask[:, :, 2] = (mask_resized * 255).astype(np.uint8)
+                colored_mask[:, :, 0] = (mask_resized * 255).astype(np.uint8)
 
                 # Tô nhẹ mask lên ảnh
                 draw_img = cv2.addWeighted(draw_img, 1.0, colored_mask, 0.4, 0)
@@ -236,7 +235,6 @@ def process_image(image_file, models, model_names, confidence):
 
                 # Vẽ vector chiều dài (màu vàng)
                 cv2.line(draw_img, p3, p4, (0, 255, 255), 2)
-                
 
         final_image = Image.fromarray(draw_img)
 
