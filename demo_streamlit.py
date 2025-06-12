@@ -82,9 +82,6 @@ def load_model_segment(paths, device):
 models = load_models(model_paths, device)
 models_segment = load_model_segment(model_segment, device)
 
-
-models = load_models(model_paths)
-models_segment = load_model_segment(model_segment)
 # Lưu kết quả đã xử lý vào session_state
 if "processed_images" not in st.session_state:
     st.session_state.processed_images = {}
