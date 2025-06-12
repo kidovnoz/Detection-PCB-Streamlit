@@ -43,10 +43,20 @@ st.logo("meiko-logo.webp", size="large", link="https://meiko-elec.com.vn/")
 st.sidebar.header("⚙️ Cấu hình")
 confidence = st.sidebar.slider("Ngưỡng confidence", 0.1, 1.0, 0.25, 0.05)
 
+# Thiết bị xử lý: GPU hoặc CPU
+device_option = st.sidebar.radio("🎛️ Thiết bị xử lý", ["GPU", "CPU"], index=0)
+if device_option == "GPU" and torch.cuda.is_available():
+    device = "cuda"
+else:
+    device = "cpu"
+
+st.sidebar.markdown(f"**Đang sử dụng:** `{device.upper()}`")
+
 # Nút xoá cache ảnh
 if st.sidebar.button("🧹 Xử lý lại"):
     st.session_state.processed_images = {}
     st.sidebar.success("Đã xóa cache.")
+
 # Mật khẩu admin
 ADMIN_PASSWORD = "1234"
 st.sidebar.title("🔒 Đăng nhập quản trị")
@@ -56,20 +66,21 @@ if password_input == ADMIN_PASSWORD:
     st.sidebar.success("✅ Đăng nhập thành công!")
     yaml_path = st.sidebar.text_input(" 🔧 Đường dẫn file YAML", value=yaml_path)
     model_paths, model_names, model_segment = load_model_config(yaml_path)
-
 else:
     st.sidebar.warning("🔐 Nhập mật khẩu để xem cấu hình")
     model_paths, model_names, model_segment = load_model_config(yaml_path)
 
 
-# ✅ Load model chỉ 1 lần
+# ✅ Load model chỉ 1 lần và đưa lên GPU/CPU
 @st.cache_resource
-def load_models(paths):
-    return [YOLO(path) for path in paths]
+def load_models(paths, device):
+    return [YOLO(path).to(device) for path in paths]
 
+def load_model_segment(paths, device):
+    return [SAM(path).to(device) for path in paths]
 
-def load_model_segment(paths):
-    return [SAM(path) for path in paths]
+models = load_models(model_paths, device)
+models_segment = load_model_segment(model_segment, device)
 
 
 models = load_models(model_paths)
