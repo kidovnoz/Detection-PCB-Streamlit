@@ -1,10 +1,10 @@
 models:
   - name: Mô hình 1
-    class_name: Khuyet Mach
+    class_name: Ngan Mach
     weight_path: models/Khuyet Mach.pt
 
   - name: Mô hình 2
-    class_name: Ngan Mach
+    class_name: Khuyet Mach
     weight_path: models/NganMach.pt
 
   - name: Mô hình 3
