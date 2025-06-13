@@ -198,7 +198,7 @@ def process_image(image_file, models, model_names, confidence):
 
                 # Tạo màu overlay (ví dụ màu đỏ)
                 colored_mask = np.zeros_like(draw_img)
-                colored_mask[:, :, 0] = (mask_resized * 255).astype(np.uint8)
+                colored_mask[:, :, 1] = (mask_resized * 155).astype(np.uint8)
 
                 # Tô nhẹ mask lên ảnh
                 draw_img = cv2.addWeighted(draw_img, 1.0, colored_mask, 0.4, 0)
